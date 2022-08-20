@@ -30,7 +30,7 @@
         <input type="text" class="form__item" id="username" v-model="registerForm.name">
         <label for="email">Email</label>
         <input type="text" class="form__item" id="email" v-model="registerForm.email">
-        <label for="password">Password</label>
+        <label for="password">Password ※8文字以上</label>
         <input type="password" class="form__item" id="password" v-model="registerForm.password">
         <label for="password-confirmation">Password (confirm)</label>
         <input type="password" class="form__item" id="password-confirmation" v-model="registerForm.password_confirmation">
@@ -61,11 +61,19 @@ export default {
     }
   },
   methods: {
-    login () {
-      console.log(this.loginForm)
+    async login () {
+      // authストアのloginアクションを呼び出す
+      await this.$store.dispatch('auth/login', this.loginForm)
+      // トップページに移動する
+      this.$router.push('/')
     },
-    register () {
-      console.log(this.registerForm)
+    async register () {
+      // this.$store からストアを参照
+      // authストアのresigterアクションを dispatch('actionの名前', 'フォーム入力値') で呼び出す      
+      await this.$store.dispatch('auth/register', this.registerForm)
+
+      // トップページに移動する
+      this.$router.push('/')
     }
   }
 }
